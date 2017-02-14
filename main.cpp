@@ -84,7 +84,7 @@ int main(int argc, char * argv[])
 
 
 
-    if (retValue == 1){
+    if (retValue == 0){
         /** start our http rest framework and mini-webserver **/
         std::cout << "--help for usage starting webserver-note-app ^C to exit" << std::endl;
         /** fire up a apiNote-application that the  webserver will call out to. **/
