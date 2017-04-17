@@ -1,7 +1,7 @@
 
 #include <exception>
 #include "serverlb.h"
-#include "apiNote.h"
+#include "noteApp.h"
 using namespace std::placeholders; // for `_1`
 
 
@@ -28,7 +28,7 @@ serverlb::serverlb(int port,std::string ipaddr,std::set<std::string> pathList )
         service.start(settings );
     }
     catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        std::cout << __PRETTY_FUNCTION__ << e.what() << std::endl;
     }
 }
 
@@ -50,8 +50,8 @@ void serverlb::post_method_handler(const shared_ptr<Session > session){
 
     session->fetch( content_length, [ request ]( const shared_ptr< Session > session, const Bytes & body )
     {
-
-        t_shApiNoteptr anote = apiNote::getInstance();
+        /// lambda callback function
+        t_shnoteAppptr anote = noteApp::getInstance();
         //anote.writeNote(body.size(), (char *) body.data());
         anote->writeStuff(body.size(),(char *) body.data());
         session->close( OK, "Hello, World!", { { "Content-Length", "13" }, { "Connection", "close" } } );
@@ -72,7 +72,8 @@ void serverlb::post_json_method_handler(const shared_ptr<Session> session){
 
     session->fetch( content_length, [ request ]( const shared_ptr< Session > session, const Bytes & body )
     {
-         t_shApiNoteptr anote = apiNote::getInstance();
+        /// lambda callback function
+         t_shnoteAppptr anote = noteApp::getInstance();
         //anote.writeNote(body.size(),(char *)body.data());
         anote->writeStuff(body.size(),(char*) body.data());
         //std::stringstream jsonResponse;
@@ -91,7 +92,7 @@ void serverlb::post_json_method_handler(const shared_ptr<Session> session){
 ///\arg const shared_ptr<Session> session
 ///\return none
 ///< call back function for processing json get
-///< creates anote which intern persistantly stores note
+///< creates anote which intern persistently stores note
 ///< return { id:n body: ss}
 void serverlb::get_json_method_handler(const shared_ptr<Session> session){
 
@@ -99,7 +100,7 @@ void serverlb::get_json_method_handler(const shared_ptr<Session> session){
     const auto& request = session->get_request( );
     std::string id = request->get_path_parameter("id");
     string query = request->get_query_parameter( "query", "" );
-   t_shApiNoteptr anote = apiNote::getInstance();
+   t_shnoteAppptr anote = noteApp::getInstance();
 
     std::string rsnote;
     std::string rsLength;
@@ -164,7 +165,7 @@ void serverlb::allNotes_te_chunk(const shared_ptr<Session>session)
             string sid;
             //std::string rsnote;
             //std::string rsLength;
-            t_shApiNoteptr anote = apiNote::getInstance();
+            t_shnoteAppptr anote = noteApp::getInstance();
 
             while (getNotes) {
                 sid = std::to_string(id);
@@ -178,7 +179,7 @@ void serverlb::allNotes_te_chunk(const shared_ptr<Session>session)
                 session->yield(spdu,[ ]( const shared_ptr< Session > session ){} );
                 /**
                 std::stringstream ssrnote;
-                std::shared_ptr<t_shApiNoteptr::t_t_shApiNoteptrInfo> noteInfo= anote.retriveNote(sid,ssrnote);
+                std::shared_ptr<t_shnoteAppptr::t_t_shnoteAppptrInfo> noteInfo= anote.retriveNote(sid,ssrnote);
                 if (noteInfo.get() != nullptr){
                     std::stringstream package ;
                     //rsnote = ssrnote.str();

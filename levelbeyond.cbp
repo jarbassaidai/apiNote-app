@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="--help" />
+				<Option parameters="--port 2015" />
 				<Compiler>
 					<Add option="-std=c++14" />
 					<Add option="-m64" />
@@ -54,6 +54,35 @@
 					<Add library="/lib64/libboost_program_options.so" />
 				</Linker>
 			</Target>
+			<Target title="test">
+				<Option output="testLevelBeyond" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="test" />
+				<Option object_output="test/.objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++14" />
+					<Add option="-pg" />
+					<Add option="-m64" />
+					<Add option="-g" />
+					<Add option="-I/mnt-btrfs/home/jar/projects/levelBeyond" />
+					<Add directory="test" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add option="-m64" />
+					<Add library="/mnt-btrfs/home/jar/projects/restbed/build/librestbed.a" />
+					<Add library="/usr/lib64/libpthread.so" />
+					<Add library="/usr/lib64/libboost_system.so" />
+					<Add library="/usr/lib64/libboost_thread.so" />
+					<Add library="/usr/lib64/libcrypt.so" />
+					<Add library="/usr/lib64/libcrypto.so" />
+					<Add library="/lib64/libboost_log.so" />
+					<Add library="/lib64/libssl.so" />
+					<Add library="/lib64/libboost_program_options.so" />
+					<Add library="/lib64/libboost_unit_test_framework.so" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -62,6 +91,7 @@
 			<Add option="-fpic -fexceptions" />
 			<Add option="-I /home/jar/projects/restbed/source/corvusoft/" />
 			<Add option="-I /home/jar/projects/restbed/source/" />
+			<Add option="-I/usr/local/include" />
 			<Add directory="/mnt-btrfs/home/jar/projects/restbed/source/corvusoft" />
 			<Add directory="/mnt-btrfs/home/jar/projects/restbed/source" />
 		</Compiler>
@@ -78,19 +108,60 @@
 			<Add library="/lib64/libboost_regex.so" />
 			<Add library="/lib64/libboost_program_options.so" />
 		</Linker>
-		<Unit filename="apiNote.cpp" />
-		<Unit filename="apiNote.h" />
+		<Unit filename="basicFile.cpp" />
+		<Unit filename="basicFile.h" />
+		<Unit filename="jsonIndex.cpp" />
+		<Unit filename="jsonIndex.h" />
 		<Unit filename="jsonStore.cpp" />
 		<Unit filename="jsonStore.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="serverlb.cpp" />
-		<Unit filename="serverlb.h" />
+		<Unit filename="main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="noteApp.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="noteApp.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="noteJsonBoost.cpp" />
+		<Unit filename="noteJsonBoost.h" />
+		<Unit filename="serverlb.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="serverlb.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="test/basicFileTest.cpp">
+			<Option target="test" />
+		</Unit>
+		<Unit filename="test/jsonIndexTest.cpp">
+			<Option target="test" />
+		</Unit>
+		<Unit filename="test/jsonStoreTest.cpp">
+			<Option target="test" />
+		</Unit>
+		<Unit filename="test/main.cpp">
+			<Option target="test" />
+		</Unit>
+		<Unit filename="test/noteJsonTest.cpp">
+			<Option target="test" />
+		</Unit>
+		<Unit filename="test/noteJsonTest.h">
+			<Option target="test" />
+		</Unit>
 		<Extensions>
 			<code_completion>
 				<search_path add="/mnt-btrfs/home/jar/projects/restbed/source" />
 				<search_path add="/mnt-btrfs/home/jar/projects/restbed/source/corvusoft" />
+				<search_path add="/mnt-btrfs/home/jar/projects/levelbeyond/" />
 			</code_completion>
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

@@ -5,7 +5,7 @@
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include "serverlb.h"
-#include "apiNote.h"
+#include "noteApp.h"
 using namespace std;
 using namespace boost;
 
@@ -40,7 +40,7 @@ int main(int argc, char * argv[])
     std::string helpstr("this program will put up a mini webserver that will keep notes\n \
         Input Args are --port <port number>  defaults to 1984 \n\
                        --ipadress <ip address> defaults to 127.0.0.1\n\
-                       --jsonStore <file specification> defaults  to./apiNote.json\n\
+                       --jsonStore <file specification> defaults  to./noteApp.json\n\
                        --urladdress <url address of notes> defaults to (comma/space/semicolon) separated list \n\
                        \"/api/notes,/api/notes/{id: [0-9]*}\"\n\
         to add a new note \n\tcurl -i -H \"Content-Type: application/json\" -X POST -d \'{\"body\" : \"Pick up milk!\"}\' \
@@ -87,12 +87,12 @@ int main(int argc, char * argv[])
     if (retValue == 0){
         /** start our http rest framework and mini-webserver **/
         std::cout << "--help for usage starting webserver-note-app ^C to exit" << std::endl;
-        /** fire up a apiNote-application that the  webserver will call out to. **/
-        t_shApiNoteptr appPtr = apiNote::getInstance();
+        /** fire up a noteApp-application that the  webserver will call out to. **/
+        t_shnoteAppptr appPtr = noteApp::getInstance();
         appPtr->openStore(filespec);
         serverlb levelBeyond(port,ipaddr, buildPaths(urladdr));
 
-    std::cout << "ending apiNote" << std::endl;
+    std::cout << "ending noteApp" << std::endl;
     }
     return (retValue);
 }
