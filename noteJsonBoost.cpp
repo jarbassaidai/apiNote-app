@@ -131,3 +131,11 @@ void noteJsonArray::write( std::ostream & target)
     a.add_child("array",m_elements);
     pt::write_json(target,a);
 }
+std::ostream & noteJsonArray::dump(std::ostream & os)
+{
+    os << "m_elements:\n";
+    pt::write_json(os,m_elements);
+    os << "\nm_noteArray:\n";
+    pt::write_json(os,m_noteArray);
+    return os;
+}

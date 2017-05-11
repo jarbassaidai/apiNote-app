@@ -60,7 +60,7 @@ class noteApp : public srvlbClient<noteApp>
 
         void writeNote(int length, char * data);
         void response(std::stringstream & jsonResponse );
-        std::shared_ptr<jsonIndex::t_jsonIndex> retriveNote(std::string sid, std::stringstream & jsonResponse);
+        bool retriveNote(std::string sid, std::stringstream & jsonResponse);
         void fetchAllNotes(std::stringstream & jsonResponse, std::string &token = (std::string &)c_none);
         bool Contains(std::string & token, std::stringstream & data);
         void buildJsonArray(std::stringstream & );

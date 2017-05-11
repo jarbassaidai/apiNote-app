@@ -1,5 +1,5 @@
 #include "noteApp.h"
-#include "noteJson.h"
+#include "noteJsonBoost.h"
 
 
 ///\fn noteApp
@@ -20,7 +20,7 @@ noteApp::noteApp() : srvlbClient<noteApp>()
 ///\return none
 ///<
 void noteApp::openStore(std::string &filespec){
-    m_fname = (filespec.empty()) ? "noteApp.json" : filespec;
+    m_fname = (filespec.empty()) ? "noteApp" : filespec;
     ms_js.reset(new jsonStore(m_fname));
 }
 ///\fn ~noteApp
@@ -39,7 +39,7 @@ noteApp::~noteApp()
 ///\return none
 ///< takes the raw data from a post puts it in a stringstream
 ///< adds a json {id:NNN} to the data and then
-///< then sends boost::property_tree::ptree to the jsonStore for presistant storage
+///< then sends boost::property_tree::ptree to the jsonStore for persistent storage
 ///<
 void noteApp::writeNote(int length, char * data)
 {
@@ -49,9 +49,10 @@ void noteApp::writeNote(int length, char * data)
 
     b.append(data,length);
     jsonStream << b;
-    std::string sid = ms_js->getId();
+    std::string sid = ms_js->getNextId();
     try {
-        m_note.put("id",sid);
+        std::string ix("id");
+        m_note.put(ix,sid);
         m_note.put(jsonStream);
 
         ms_js->writeJ(sid,m_note.getJson());
@@ -93,10 +94,10 @@ void noteApp::getResponse(std::string & returnV){
 ///\arg std::stringstream & jsonRespone
 ///\return  fills in the note associated with passed in request id
 ///\warning NOT THREAD SAFE
-std::shared_ptr<noteApp::t_noteAppInfo> noteApp::retriveNote(std::string sid, std::stringstream & jsonResponse)
+bool noteApp::retriveNote(std::string sid, std::stringstream & jsonResponse)
 {
     noteJson nj;
-    std::shared_ptr<jsonIndex::t_jsonIndex> sji =  ms_js->getJ(sid,nj.getJson());
+    bool sji =  ms_js->getJ(sid,nj.getJson());
     if (! nj.empty()){
         nj.outToStream(jsonResponse);
     }
@@ -133,12 +134,12 @@ void noteApp::fetchAllNotes(std::stringstream &allnotes,std::string &token)
         id++;
         std::stringstream ssrnote;
         ssrnote.str(""); // clear string in case complier is optimizing too much
-        std::shared_ptr<jsonIndex::t_jsonIndex> spji = retriveNote(sid,ssrnote);
-        if (!token.empty() && spji.get() != nullptr) {
+        bool spji = retriveNote(sid,ssrnote);
+        if (!token.empty() && spji) {
             if (! Contains(token,ssrnote))
                 continue;
         }
-        if (spji.get() !=nullptr){
+        if (spji){
             allnotes << ssrnote.str();
         }else {
             getNotes = false;
@@ -188,8 +189,8 @@ void noteApp::buildJsonArray(std::stringstream &ssrnote)
         sid = std::to_string(id);
         id++;
         //std::stringstream ssrnote;
-        std::shared_ptr<jsonIndex::t_jsonIndex> spji = retriveNote(sid,buildx);
-        if (spji.get() !=nullptr){
+        bool spji = retriveNote(sid,buildx);
+        if (spji){
             try {
                 pt::ptree child;
                 pt::read_json(buildx,child);
@@ -218,7 +219,7 @@ void noteApp::buildJsonArray(std::stringstream &ssrnote)
     try{
         std::stringstream elm;
         pt::write_json(elm,jAElement);
-        jArray.add_child("all notes",jAElement);
+        jArray.add_child("all_notes",jAElement);
 
         pt::write_json(ssrnote,jArray);
         /**

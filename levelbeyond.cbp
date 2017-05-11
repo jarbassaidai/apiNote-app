@@ -67,6 +67,9 @@
 					<Add option="-g" />
 					<Add option="-I/mnt-btrfs/home/jar/projects/levelBeyond" />
 					<Add directory="test" />
+					<Add directory="/mnt-btrfs/home/jar/projects/restc-cpp/include" />
+					<Add directory="/mnt-btrfs/home/jar/projects/restc-cpp/externals" />
+					<Add directory="/mnt-btrfs/home/jar/projects/restc-cpp/externals/rapidjson/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg" />
@@ -81,6 +84,8 @@
 					<Add library="/lib64/libssl.so" />
 					<Add library="/lib64/libboost_program_options.so" />
 					<Add library="/lib64/libboost_unit_test_framework.so" />
+					<Add library="/mnt-btrfs/home/jar/projects/restc-cpp/lib/librestc-cpp.so" />
+					<Add directory="/mnt-btrfs/home/jar/projects/restc-cpp/lib" />
 				</Linker>
 			</Target>
 		</Build>
@@ -118,25 +123,16 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="noteApp.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="noteApp.h">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
+		<Unit filename="noteApp.cpp" />
+		<Unit filename="noteApp.h" />
 		<Unit filename="noteJsonBoost.cpp" />
 		<Unit filename="noteJsonBoost.h" />
-		<Unit filename="serverlb.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="serverlb.h">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
+		<Unit filename="serverlb.cpp" />
+		<Unit filename="serverlb.h" />
 		<Unit filename="test/basicFileTest.cpp">
+			<Option target="test" />
+		</Unit>
+		<Unit filename="test/httpClient.h">
 			<Option target="test" />
 		</Unit>
 		<Unit filename="test/jsonIndexTest.cpp">
@@ -154,11 +150,15 @@
 		<Unit filename="test/noteJsonTest.h">
 			<Option target="test" />
 		</Unit>
+		<Unit filename="test/serverlbTest.cpp">
+			<Option target="test" />
+		</Unit>
 		<Extensions>
 			<code_completion>
 				<search_path add="/mnt-btrfs/home/jar/projects/restbed/source" />
 				<search_path add="/mnt-btrfs/home/jar/projects/restbed/source/corvusoft" />
 				<search_path add="/mnt-btrfs/home/jar/projects/levelbeyond/" />
+				<search_path add="/mnt-btrfs/home/jar/projects/restc-cpp/include/restc-cpp" />
 			</code_completion>
 			<debugger />
 			<envvars />

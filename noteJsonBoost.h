@@ -50,6 +50,7 @@ class noteJson
         std::string getId();
         std::string getBody();
         bool contains(std::string &token);
+        size_t size(){return (m_jsonNote.size());}
 
 
 
@@ -87,6 +88,9 @@ class noteJsonArray
         _notejson_::iterator begin() {return m_noteArray.begin(); }
         _notejson_::iterator  end() { return m_noteArray.end(); }
         void write(std::ostream& );
+        size_t size() {return m_noteArray.size();}
+        size_t esize() {return m_elements.size();}
+        std::ostream & dump(std::ostream & os);
     protected:
         _notejson_ m_elements;
         _notejson_ m_noteArray;
